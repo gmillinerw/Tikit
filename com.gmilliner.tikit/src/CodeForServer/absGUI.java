@@ -1,4 +1,4 @@
-package SharedUtilities;
+package CodeForServer;
 
 import javax.swing.*;
 import java.awt.*;
