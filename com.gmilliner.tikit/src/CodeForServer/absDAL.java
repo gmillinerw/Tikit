@@ -22,7 +22,7 @@ public abstract class absDAL {
 
     public absDAL() {
         //this.DATA_SOURCE = ":memory:;Version=3;New=True;";
-        this.DATA_SOURCE = "jdbc:sqlite:/Users/Guilder W. Milliner/Dropbox/Fidelitas/Projectos y Trabajos/Tikit/com.gmilliner.tikit/SQlite/TikitDB.db";
+        this.DATA_SOURCE = "jdbc:sqlite:DataBase/TikitDB.db";
     }
 
     //<editor-fold defaultstate="collapsed" desc="Data Manipulation Language (DML) Statements">//</editor-fold>
@@ -30,7 +30,7 @@ public abstract class absDAL {
         System.out.println("ExeDML will run SQL Query:\n\t\t" + query);
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             PreparedStatement stmt = Connection.prepareStatement(query);
-            System.out.println(stmt.executeUpdate() + " row Was modifyed");
+            System.out.println(stmt.executeUpdate() + " row Was modified");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return 1;
@@ -38,17 +38,17 @@ public abstract class absDAL {
         return 0;
     }
 
-    int ExeBulkPreparedSTMT(String query, Map<String, List<Integer>> Hall, int seatCoaunter) {
-        System.out.println("ExeBatcPreparedSTMT will run prepared statement:\n\t\t" + query);
+    int ExeBatchPreparedSTMT(String query, Map<String, List<Integer>> Hall, int seatCounter) {
+        System.out.println("ExeBatchPreparedSTMT will run prepared statement:\n\t\t" + query);
 
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             Connection.setAutoCommit(false);
             PreparedStatement pstmt = Connection.prepareStatement(query);
-            for (int i = 0; i < seatCoaunter; i++) {
+            for (int i = 0; i < seatCounter; i++) {
                 pstmt.setInt(1, Hall.get("MovieList").get(i));
-                pstmt.setInt(2, Hall.get("TandaList").get(i));
+                pstmt.setInt(2, Hall.get("TimeList").get(i));
                 pstmt.setInt(3, Hall.get("SeatList").get(i));
-//                System.out.println("run prepared statement " + Hall.get("MovieList").get(i) + Hall.get("TandaList").get(i) + Hall.get("SeatList").get(i));
+//                System.out.println("run prepared statement " + Hall.get("MovieList").get(i) + Hall.get("TimeList").get(i) + Hall.get("SeatList").get(i));
                 pstmt.addBatch();
             }
             int[] count = pstmt.executeBatch();
@@ -83,7 +83,7 @@ public abstract class absDAL {
             result.put(Key, new ArrayList<>());
         }
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
-            PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement stmt = Connection.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
                 for (int i = 1; i < keys.length; i++) {
@@ -104,7 +104,7 @@ public abstract class absDAL {
         ArrayList<Integer> result = new ArrayList<>();
 
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
-            PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement stmt = Connection.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
                 result.add(resultSet.getInt(1));
@@ -122,7 +122,7 @@ public abstract class absDAL {
         ArrayList<String> querryResults = new ArrayList<>();
 
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
-            PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement stmt = Connection.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
             ResultSetMetaData resultSetMD = resultSet.getMetaData();
             int columnCount;
@@ -204,10 +204,10 @@ public abstract class absDAL {
      * will return a single string value.
      */
     protected String stringQuerry(String query) {
-        System.out.println("stringDDL will run SQL Querry:\n\t\t" + query);
+        System.out.println("stringDDL will run SQL Query:\n\t\t" + query);
         String result = null;
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
-            PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement stmt = Connection.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
                 result = resultSet.getString(1);
@@ -225,7 +225,7 @@ public abstract class absDAL {
      */
     void PrintResultSet(ResultSet resultSet) {
         try {
-            if (resultSet.first()) {
+            if (resultSet.next()) {
                 ResultSetMetaData resultSetMD = resultSet.getMetaData();
                 int columnCount = resultSetMD.getColumnCount();
                 System.out.println("\t\t\t---- START OF QUERY RESULTS ----\n");
@@ -241,7 +241,7 @@ public abstract class absDAL {
                 System.out.print("\n");
                 for (int i = 1; i <= columnCount; i++) {
                     if (i == 1) {
-                        resultSet.first();
+                        resultSet.next();
                         System.out.print("  \t" + resultSet.getString(i));
                     }
                     while (resultSet.next()) {

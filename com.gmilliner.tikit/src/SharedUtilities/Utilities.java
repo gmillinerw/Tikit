@@ -14,7 +14,7 @@ public class Utilities {
     public int GenerateRanNum(int max, int min) {
         Random rand = new Random();
         int randomNum = rand.nextInt((max - min) + 1) + min;
-        System.out.println("Generated random number: " + randomNum);
+//        System.out.println("Generated random number: " + randomNum);
         return randomNum;
     }
 

@@ -12,16 +12,16 @@ public class Stage3Home extends absGUI {
     Stage3Home(User user) {
         this.user = user;
         System.out.println("The number of movies is: " + this.configuration.getNumMovies());
-        System.out.println("The number of tandas is: " + this.configuration.getNumTandas());
+        System.out.println("The number of Times is: " + this.configuration.getNumTimes());
         System.out.println("The number of seats is: " + this.configuration.getNumSeats());
 
         System.out.println("The User Setting UserID is: " + this.user.getUserID());
-        System.out.println("The User Setting fName is: " + this.user.getfName());
-        System.out.println("The User Setting lName is: " + this.user.getlName());
+        System.out.println("The User Setting FirstName is: " + this.user.getFirstName());
+        System.out.println("The User Setting LastName is: " + this.user.getLastName());
         System.out.println("The User Setting BankCard is: " + this.user.getBankCard());
         System.out.println("The User Setting EMail is: " + this.user.getEMail());
         System.out.println("The User Setting UserName is: " + this.user.getUserName());
-        System.out.println("The User Setting Pasword is: " + this.user.getPasword());
+        System.out.println("The User Setting Password is: " + this.user.getPassword());
         System.out.println("The User Setting Login is: " + this.user.isLogin());
         System.out.println("The User Setting Admin is: " + this.user.isAdmin());
     }

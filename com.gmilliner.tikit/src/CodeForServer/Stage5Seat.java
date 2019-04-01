@@ -10,7 +10,7 @@ public class Stage5Seat extends absGUI {
 
     int userID;
     String movieSelected;
-    int tandaSelected;
+    int TimeSelected;
     int errorCount;
     User user;
     Hall hall;
@@ -40,25 +40,25 @@ public class Stage5Seat extends absGUI {
 
         System.out.println("\n");
         System.out.println("The number of movies is: " + this.configuration.getNumMovies());
-        System.out.println("The number of tandas is: " + this.configuration.getNumTandas());
+        System.out.println("The number of Times is: " + this.configuration.getNumTimes());
         System.out.println("The number of seats is: " + this.configuration.getNumSeats());
         System.out.println("\n");
         System.out.println("The User Setting UserID is: " + this.user.getUserID());
-        System.out.println("The User Setting fName is: " + this.user.getfName());
-        System.out.println("The User Setting lName is: " + this.user.getlName());
+        System.out.println("The User Setting FirstName is: " + this.user.getFirstName());
+        System.out.println("The User Setting LastName is: " + this.user.getLastName());
         System.out.println("The User Setting BankCard is: " + this.user.getBankCard());
         System.out.println("The User Setting EMail is: " + this.user.getEMail());
         System.out.println("The User Setting UserName is: " + this.user.getUserName());
-        System.out.println("The User Setting Pasword is: " + this.user.getPasword());
+        System.out.println("The User Setting Password is: " + this.user.getPassword());
         System.out.println("The User Setting Login is: " + this.user.isLogin());
         System.out.println("The User Setting Admin is: " + this.user.isAdmin());
         System.out.println("\n");
     }
 
-    void getMainDisplay(String movieSelected, int tandaSelected) {
+    void getMainDisplay(String movieSelected, int TimeSelected) {
         System.out.println("METHOD INFO: " + Arrays.toString(Thread.currentThread().getStackTrace()));
         setGUI("Chose Setas");
-        hall = cacheHall(movieSelected, tandaSelected);
+        hall = cacheHall(movieSelected, TimeSelected);
         this.seatButton = new JButton[configuration.getNumSeats()];
 
         JPanel topLeftPanel = new JPanel();
@@ -135,15 +135,15 @@ public class Stage5Seat extends absGUI {
 
     void setseatIcons() {
         String query;
-        query = "SELECT SeatNum FROM ROOT.SEATS where movieID = " + hall.getMovieID()
-                + " and Tanda = " + hall.getTandaNumber() + " and isBooked = True";
+        query = "SELECT SeatNum FROM SEATS where movieID = " + hall.getMovieID()
+                + " and Time = " + hall.getTimeNumber() + " and isBooked = True";
         ArrayList<Integer> OccupiedSeatList = getintListQuerry(query);
         for (int i = 0; i < OccupiedSeatList.size(); i++) {
             seatButton[OccupiedSeatList.get(i) - 1].setIcon(movieImage[OccupiedSeat]);
         }
 
-        query = "SELECT seatNum FROM ROOT.RESERVATIONS where movieID = " + hall.getMovieID()
-                + " and Tanda = " + hall.getTandaNumber() + " and BookedBy = '" + user.getUserName() + "'";
+        query = "SELECT seatNum FROM RESERVATIONS where movieID = " + hall.getMovieID()
+                + " and Time = " + hall.getTimeNumber() + " and BookedBy = '" + user.getUserName() + "'";
         ArrayList<Integer> selectedSeatList = getintListQuerry(query);
         for (int i = 0; i < selectedSeatList.size(); i++) {
             seatButton[selectedSeatList.get(i) - 1].setIcon(movieImage[selectedSeat]);
@@ -161,21 +161,21 @@ public class Stage5Seat extends absGUI {
         String query;
         int DSPSeatNumber = Integer.parseInt(evt.getActionCommand());
         int ArraySeatNumber = DSPSeatNumber - 1;
-        query = "SELECT isBooked FROM ROOT.SEATS where movieID = " + hall.getMovieID()
-                + " and Tanda = " + hall.getTandaNumber() + " and seatNum = " + DSPSeatNumber;
+        query = "SELECT isBooked FROM SEATS where movieID = " + hall.getMovieID()
+                + " and Time = " + hall.getTimeNumber() + " and seatNum = " + DSPSeatNumber;
 
         if (!booleanQuerry(query)) {
-            query = "SELECT ReservationID FROM ROOT.RESERVATIONS where movieID = " + hall.getMovieID() + " and Tanda = "
-                    + hall.getTandaNumber() + " and seatNum = " + DSPSeatNumber + " and BookedBy = '" + user.getUserName() + "'";
+            query = "SELECT ReservationID FROM RESERVATIONS where movieID = " + hall.getMovieID() + " and Time = "
+                    + hall.getTimeNumber() + " and seatNum = " + DSPSeatNumber + " and BookedBy = '" + user.getUserName() + "'";
             if (intQuerry(query) > 0) {
 
-                ExeDML("DELETE FROM RESERVATIONS WHERE movieID=" + hall.getMovieID() + " and tanda=" + hall.getTandaNumber()
+                ExeDML("DELETE FROM RESERVATIONS WHERE movieID=" + hall.getMovieID() + " and Time=" + hall.getTimeNumber()
                         + " and seatNum=" + DSPSeatNumber + " and BookedBy='" + user.getUserName() + "'");
                 seatButton[ArraySeatNumber].setIcon(movieImage[FreeSeat]);
                 System.out.println("UNselected Seat #: " + DSPSeatNumber);
             } else {
-                ExeDML("INSERT INTO RESERVATIONS (SEATID,movieID, tanda, seatNum, BookedBy) VALUES (" + 99 + "," + hall.getMovieID() + ","
-                        + hall.getTandaNumber() + "," + DSPSeatNumber + ",'" + user.getUserName() + "')");
+                ExeDML("INSERT INTO RESERVATIONS (SEATID,movieID, Time, seatNum, BookedBy) VALUES (" + 99 + "," + hall.getMovieID() + ","
+                        + hall.getTimeNumber() + "," + DSPSeatNumber + ",'" + user.getUserName() + "')");
                 System.out.println("Selected Seat #: " + DSPSeatNumber);
                 seatButton[ArraySeatNumber].setIcon(movieImage[selectedSeat]);
             }
@@ -191,8 +191,8 @@ public class Stage5Seat extends absGUI {
     public void tallySeats(ActionEvent evt) {
         System.out.println("METHOD INFO: " + Arrays.toString(Thread.currentThread().getStackTrace()));
 
-        String query = "SELECT seatNum FROM ROOT.RESERVATIONS where movieID = " + hall.getMovieID() + " and Tanda = "
-                + hall.getTandaNumber() + " and BookedBy = '" + user.getUserName() + "'";
+        String query = "SELECT seatNum FROM RESERVATIONS where movieID = " + hall.getMovieID() + " and Time = "
+                + hall.getTimeNumber() + " and BookedBy = '" + user.getUserName() + "'";
         ArrayList<String> takenSeats = ExeDDL(query);
 
         StringBuilder takenSeatsSB = new StringBuilder();

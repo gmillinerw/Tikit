@@ -23,7 +23,7 @@ public class Stage2login extends absGUI {
         userLabel.setFont(new Font("Ariel", Font.BOLD, 18));
         JTextField userTextF = new JTextField("glennmarm@gmail.com", 10);
 
-        JLabel passLabel = new JLabel("PASSWORD : ", JLabel.CENTER);
+        JLabel passLabel = new JLabel("Password : ", JLabel.CENTER);
         passLabel.setForeground(Color.WHITE);
         passLabel.setFont(new Font("Ariel", Font.BOLD, 18));
         JPasswordField PasswordField = new JPasswordField("123", 10);
@@ -43,7 +43,7 @@ public class Stage2login extends absGUI {
 //            boolean logicResult = isCredentialsProper(userName, Password);
 //            System.out.println("The logic result for loginButton is: " + logicResult);
 //
-            String query = "SELECT userID FROM ROOT.USERS where username ='" + userName + "' and password='" + Password + "'";
+            String query = "SELECT userID FROM USERS where username ='" + userName + "' and Password='" + Password + "'";
             int userID = intQuerry(query);
 
             if (userID > 0) {
@@ -53,7 +53,7 @@ public class Stage2login extends absGUI {
                 Stage3Home.getMainDisplayDSP();
                 mainFrame.dispose();
             } else {
-                System.out.println("[ERROR] The password: " + Password + "  is NOT valid for user: " + userName);
+                System.out.println("[ERROR] The Password: " + Password + "  is NOT valid for user: " + userName);
                 JOptionPane.showMessageDialog(mainFrame, "Your Credentials are not Valid", "info.", 0);
             }
         });
@@ -104,7 +104,7 @@ public class Stage2login extends absGUI {
             String userName = userTextF.getText();
             System.out.println("Verifying if user exist: " + userName);
 
-            String query = "SELECT Fname FROM ROOT.USERS where Email ='" + userName + "'";
+            String query = "SELECT FirstName FROM USERS where Email ='" + userName + "'";
             ArrayList<String> querryResults = ExeDDL(query);
             boolean logicResult = !querryResults.isEmpty();
             System.out.println("The logic result for isTokenValid is: " + logicResult);
@@ -187,7 +187,7 @@ public class Stage2login extends absGUI {
         System.out.println("will atempt validate Token: " + token + " for user: " + userName);
 
         ArrayList<String> querryResults;
-        String query = "SELECT Fname FROM ROOT.USERS where Email ='" + userName + "' and Token=" + token;
+        String query = "SELECT FirstName FROM USERS where Email ='" + userName + "' and Token=" + token;
         querryResults = ExeDDL(query);
 
         boolean logicResult = !querryResults.isEmpty();
@@ -217,7 +217,7 @@ public class Stage2login extends absGUI {
         Runnable mailServer = () -> {
             System.out.println("Runnable running");
             ArrayList<String> querryResults;
-            String query1 = "SELECT EMail FROM ROOT.USERS where username ='" + userName + "'";
+            String query1 = "SELECT EMail FROM USERS where username ='" + userName + "'";
             querryResults = ExeDDL(query1);
             String Email = querryResults.get(0);
             String Subject = "Reset Token";
@@ -234,7 +234,7 @@ public class Stage2login extends absGUI {
 
     void getResetPasswordDSP(String userName) {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
-        String screenName = "Create new password";
+        String screenName = "Create new Password";
         setGUI(screenName);
 
         JLabel passLabel = new JLabel("Password: ", JLabel.CENTER);
@@ -259,14 +259,14 @@ public class Stage2login extends absGUI {
             boolean logicResult = Arrays.equals(passTextF.getPassword(), repassTextF.getPassword());
             System.out.println("The logic result for setpassButton is: " + logicResult);
             if (logicResult) {
-                System.out.println("The passwords are matching");
+                System.out.println("The Passwords are matching");
                 setPassword(userName, passTextF.getText()
                 );
                 JOptionPane.showMessageDialog(mainFrame, "Your assword has been updated.", "info.", 0);
                 getMainDisplay();
             } else {
-                System.out.println("The passwords are matching");
-                JOptionPane.showMessageDialog(mainFrame, "The pasword did not match.\n Please retype it.", "info.", 0);
+                System.out.println("The Passwords are matching");
+                JOptionPane.showMessageDialog(mainFrame, "The Password did not match.\n Please retype it.", "info.", 0);
             }
         });
 
@@ -284,17 +284,17 @@ public class Stage2login extends absGUI {
         mainFrame.setLocationRelativeTo(null);
     }
 
-    void setPassword(String userName, String password) {
+    void setPassword(String userName, String Password) {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
-        System.out.println("Will atempt to reset password for user: " + userName);
+        System.out.println("Will atempt to reset Password for user: " + userName);
 
         User user = new User();
         user.setUserName(userName);
-        user.setPasword(password);
+        user.setPassword(Password);
 
-        String query = "UPDATE Users set password='" + user.getPasword() + "' where username='" + user.getUserName() + "'";
-        System.out.println((ExeDML(query) == 0) ? "The password has been updated for user: " + user.getUserName()
-                : "[RROR] Fail to update password for user: " + user.getUserName());
+        String query = "UPDATE Users set Password='" + user.getPassword() + "' where username='" + user.getUserName() + "'";
+        System.out.println((ExeDML(query) == 0) ? "The Password has been updated for user: " + user.getUserName()
+                : "[RROR] Fail to update Password for user: " + user.getUserName());
     }
 
     /**
@@ -306,22 +306,22 @@ public class Stage2login extends absGUI {
         String screenName = "Create Account";
         setGUI(screenName);
 
-        String[] labelName = {"Name", "LName", "EMail", "Username", "pasword", "BankCard"};
-        String[] textFName = {"Name", "Last Name", "some.one@some.where", "User Name", "Password", "Bank Card"};
-        JLabel[] Label = new JLabel[labelName.length];
-        JTextField[] TextField = new JTextField[textFName.length];
+        String[] labeLastName = {"Name", "LastName", "EMail", "Username", "Password", "BankCard"};
+        String[] textFirstName = {"Name", "Last Name", "some.one@some.where", "User Name", "Password", "Bank Card"};
+        JLabel[] Label = new JLabel[labeLastName.length];
+        JTextField[] TextField = new JTextField[textFirstName.length];
 
         topPanel.setLayout(new GridLayout(6, 2, 15, 10));
 
         for (int i = 0; i < Label.length; i++) {
-            Label[i] = new JLabel(textFName[i]);
+            Label[i] = new JLabel(textFirstName[i]);
             Label[i].setFont(new Font("Ariel", Font.BOLD, 15));
             Label[i].setForeground(Color.black);
             Label[i].setOpaque(true);
             topPanel.add(Label[i]);
 
-            TextField[i] = new JTextField(labelName[i] + "TField");
-            TextField[i].setText(textFName[i]);
+            TextField[i] = new JTextField(labeLastName[i] + "TField");
+            TextField[i].setText(textFirstName[i]);
             TextField[i].setFont(new Font("Ariel", Font.BOLD, 16));
             topPanel.add(TextField[i]);
         }
@@ -357,10 +357,10 @@ public class Stage2login extends absGUI {
         System.out.println("Verifying Data...");
 
         User user = new User();
-        user.setfName(TextField[0].getText());
-        user.setlName(TextField[1].getText());
+        user.setFirstName(TextField[0].getText());
+        user.setLastName(TextField[1].getText());
         user.setEMail(TextField[2].getText());
-        user.setPasword(TextField[4].getText());
+        user.setPassword(TextField[4].getText());
         user.setBankCard(TextField[4].getText());
 
         System.out.println("will create the fallwoing user");
@@ -369,8 +369,8 @@ public class Stage2login extends absGUI {
         }
 
         System.out.println("Will atempt put the user in the DB...");
-        String query = "INSERT INTO Users(FNAME, lName, EMail,username, password, BankCard, isLogin, isAdmin)\n\t\t "
-                + "VALUES('" + user.getfName() + "', '" + user.getlName() + "', '" + user.getEMail() + "', '" + user.getUserName() + "', '" + user.getPasword() + "', '" + user.getBankCard() + "', false, false)";
+        String query = "INSERT INTO Users(FirstName, LastName, EMail,username, Password, BankCard, isLogin, isAdmin)\n\t\t "
+                + "VALUES('" + user.getFirstName() + "', '" + user.getLastName() + "', '" + user.getEMail() + "', '" + user.getUserName() + "', '" + user.getPassword() + "', '" + user.getBankCard() + "', false, false)";
         System.out.println((ExeDML(query) == 0) ? "The user was incerted into the Database" : "Fail to incert user into the Database");
         JOptionPane.showMessageDialog(mainFrame, "Your User Account has been Created.", "info.", 0);
         getMainDisplay();

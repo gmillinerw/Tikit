@@ -9,7 +9,7 @@ public class Stage4Movie extends absGUI {
 
     int userID;
     String movieSelected;
-    int tandaSelected = 0;
+    int TimeSelected = 0;
     int errorCount;
     User user = new User();
     Hall hall = new Hall();
@@ -22,16 +22,16 @@ public class Stage4Movie extends absGUI {
         this.configuration = configuration;
 
         System.out.println("The number of movies is: " + this.configuration.getNumMovies());
-        System.out.println("The number of tandas is: " + this.configuration.getNumTandas());
+        System.out.println("The number of Times is: " + this.configuration.getNumTimes());
         System.out.println("The number of seats is: " + this.configuration.getNumSeats());
 
         System.out.println("The User Setting UserID is: " + this.user.getUserID());
-        System.out.println("The User Setting fName is: " + this.user.getfName());
-        System.out.println("The User Setting lName is: " + this.user.getlName());
+        System.out.println("The User Setting FirstName is: " + this.user.getFirstName());
+        System.out.println("The User Setting LastName is: " + this.user.getLastName());
         System.out.println("The User Setting BankCard is: " + this.user.getBankCard());
         System.out.println("The User Setting EMail is: " + this.user.getEMail());
         System.out.println("The User Setting UserName is: " + this.user.getUserName());
-        System.out.println("The User Setting Pasword is: " + this.user.getPasword());
+        System.out.println("The User Setting Password is: " + this.user.getPassword());
         System.out.println("The User Setting Login is: " + this.user.isLogin());
         System.out.println("The User Setting Admin is: " + this.user.isAdmin());
     }
@@ -41,12 +41,12 @@ public class Stage4Movie extends absGUI {
 
         String query;
         ArrayList<String> movieName;
-        query = "SELECT movieName FROM ROOT.Movies";
+        query = "SELECT movieName FROM Movies";
         movieName = ExeDDL(query);
         int numOfMuvies = movieName.size();
 
         ArrayList<String> iconImageLocation;
-        query = "SELECT iconImageLocation FROM ROOT.Movies";
+        query = "SELECT iconImageLocation FROM Movies";
         iconImageLocation = ExeDDL(query);
         ArrayList<ImageIcon> iconImage = new ArrayList<>();
         for (int index = 0; index < numOfMuvies; index++) {                     //This is not worling
@@ -54,10 +54,10 @@ public class Stage4Movie extends absGUI {
             //iconImage.add(new ImageIcon(getClass().getResource(iconImageLocation.get(index))));        //This is not worling
         }
 
-        ArrayList<String> tandaList = new ArrayList<>();
-        tandaList.add("Sellect time");
-        for (int index = 1; index < configuration.getNumTandas(); index++) {
-            tandaList.add("Tanda de: " + index + "pm");
+        ArrayList<String> TimeList = new ArrayList<>();
+        TimeList.add("Sellect time");
+        for (int index = 1; index < configuration.getNumTimes(); index++) {
+            TimeList.add("Time de: " + index + "pm");
         }
 
         ImageIcon[] movieImage = { //To delete
@@ -97,31 +97,31 @@ public class Stage4Movie extends absGUI {
             Stage3Home.getMainDisplayDSP();
         });
 
-        JComboBox tandaComboBox = new JComboBox(tandaList.toArray());
-        tandaComboBox.setFont(new Font("Ariel", Font.BOLD, 15));
-        tandaComboBox.addActionListener((ActionEvent evt) -> {
+        JComboBox TimeComboBox = new JComboBox(TimeList.toArray());
+        TimeComboBox.setFont(new Font("Ariel", Font.BOLD, 15));
+        TimeComboBox.addActionListener((ActionEvent evt) -> {
             System.out.println("EVT INFO: " + evt.getActionCommand() + " button was press");
-            tandaSelected = tandaComboBox.getSelectedIndex();
-            System.out.println("Selected time: " + tandaSelected + "(" + tandaList.get(tandaSelected) + ")");
+            TimeSelected = TimeComboBox.getSelectedIndex();
+            System.out.println("Selected time: " + TimeSelected + "(" + TimeList.get(TimeSelected) + ")");
         });
 
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener((ActionEvent evt) -> {
             System.out.println("EVT INFO: " + evt.getActionCommand() + " button was press");
-            if (movieSelected != null && tandaSelected != 0) {
+            if (movieSelected != null && TimeSelected != 0) {
                 System.out.println("The next logic is: False");
                 System.out.println("The next logic is: True");
                 mainFrame.dispose();
                 Stage5Seat Stage5Seat;
                 Stage5Seat = new Stage5Seat(user, configuration);
-                Stage5Seat.getMainDisplay(movieSelected, tandaSelected);
+                Stage5Seat.getMainDisplay(movieSelected, TimeSelected);
             } else {
                 System.out.println("The next logic is: False");
             }
         });
 
         bottomPanel.add(backButton);
-        bottomPanel.add(tandaComboBox);
+        bottomPanel.add(TimeComboBox);
         bottomPanel.add(nextButton);
 
         topPanel.setLayout(new GridLayout(2, 6, 10, 15));

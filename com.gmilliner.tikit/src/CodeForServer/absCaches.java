@@ -9,7 +9,7 @@ public abstract class absCaches extends absDAL {
         Configuration Configuration = new Configuration();
         Configuration.setNumMovies(intQuerry("SELECT setting FROM Configuration where property ='numMovies'"));
         Configuration.setNumSeats(intQuerry("SELECT setting FROM Configuration where property ='numSeats'"));
-        Configuration.setNumTandas(intQuerry("SELECT setting FROM Configuration where property ='numTandas'"));
+        Configuration.setNumTimes(intQuerry("SELECT setting FROM Configuration where property ='numTimes'"));
         Configuration.setPrice(intQuerry("SELECT setting FROM Configuration where property ='price'"));
         return Configuration;
     }
@@ -17,11 +17,11 @@ public abstract class absCaches extends absDAL {
     User cacheUser(int userID) {
         User user = new User();
         user.setUserID(userID);
-        user.setfName(stringQuerry("SELECT fNAME FROM USERS where userID = " + userID));
-        user.setlName(stringQuerry("SELECT lName FROM  USERS where userID = " + userID));
+        user.setFirstName(stringQuerry("SELECT FirstName FROM USERS where userID = " + userID));
+        user.setLastName(stringQuerry("SELECT LastName FROM  USERS where userID = " + userID));
         String EMail = stringQuerry("SELECT EMail FROM USERS where userID = " + userID);
         user.setUserName(stringQuerry("SELECT UserName FROM USERS where userID = " + userID), EMail);
-        user.setPasword(stringQuerry("SELECT password FROM USERS where userID = " + userID));
+        user.setPassword(stringQuerry("SELECT Password FROM USERS where userID = " + userID));
         user.setBankCard(stringQuerry("SELECT BankCard FROM USERS where userID = " + userID));
         user.setLogin(booleanQuerry("SELECT isLogin FROM USERS where userID = " + userID));
         user.setAdmin(booleanQuerry("SELECT isAdmin FROM USERS where userID = " + userID));
@@ -29,11 +29,11 @@ public abstract class absCaches extends absDAL {
         return user;
     }
 
-    Hall cacheHall(String movieSelected, int tandaSelected) {
+    Hall cacheHall(String movieSelected, int TimeSelected) {
         Hall hall = new Hall();
 
         hall.setMovieName(movieSelected);
-        hall.setTandaNumber(tandaSelected);
+        hall.setTimeNumber(TimeSelected);
         String query = "select MovieID from  Movies where MovieName = '"
                 + hall.getMovieName() + "'";
         hall.setMovieID(intQuerry(query));
@@ -43,7 +43,7 @@ public abstract class absCaches extends absDAL {
     class Configuration {
 
         private int numMovies;
-        private int numTandas;
+        private int numTimes;
         private int numSeats;
         private int price;
 
@@ -55,12 +55,12 @@ public abstract class absCaches extends absDAL {
             this.numMovies = numMovies;
         }
 
-        public int getNumTandas() {
-            return numTandas;
+        public int getNumTimes() {
+            return numTimes;
         }
 
-        public void setNumTandas(int numTandas) {
-            this.numTandas = numTandas;
+        public void setNumTimes(int numTimes) {
+            this.numTimes = numTimes;
         }
 
         public int getNumSeats() {
@@ -84,11 +84,11 @@ public abstract class absCaches extends absDAL {
     class User {
 
         private int userID;
-        private String fName;
-        private String lName;
+        private String FirstName;
+        private String LastName;
         private String EMail;
         private String userName;
-        private String pasword;
+        private String Password;
         private String BankCard;
         private boolean Login;
         private boolean admin;
@@ -101,20 +101,20 @@ public abstract class absCaches extends absDAL {
             this.userID = userID;
         }
 
-        public String getfName() {
-            return fName;
+        public String getFirstName() {
+            return FirstName;
         }
 
-        public void setfName(String fName) {
-            this.fName = fName.substring(0, 1).toUpperCase() + fName.substring(1);
+        public void setFirstName(String firstName) {
+            this.FirstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
         }
 
-        public String getlName() {
-            return lName;
+        public String getLastName() {
+            return LastName;
         }
 
-        public void setlName(String lName) {
-            this.lName = lName.substring(0, 1).toUpperCase() + lName.substring(1);
+        public void setLastName(String LastName) {
+            this.LastName = LastName.substring(0, 1).toUpperCase() + LastName.substring(1);
         }
 
         public String getBankCard() {
@@ -176,12 +176,12 @@ public abstract class absCaches extends absDAL {
             this.EMail = EMail;
         }
 
-        public String getPasword() {
-            return pasword;
+        public String getPassword() {
+            return Password;
         }
 
-        public void setPasword(String pasword) {
-            this.pasword = pasword;
+        public void setPassword(String Password) {
+            this.Password = Password;
         }
 
         public boolean isLogin() {
@@ -205,7 +205,7 @@ public abstract class absCaches extends absDAL {
 
         private int movieID;
         private String movieName;
-        private int tandaNumber;
+        private int TimeNumber;
 
         private int seatNum;
 
@@ -225,12 +225,12 @@ public abstract class absCaches extends absDAL {
             this.movieName = movieName;
         }
 
-        public int getTandaNumber() {
-            return tandaNumber;
+        public int getTimeNumber() {
+            return TimeNumber;
         }
 
-        public void setTandaNumber(int tandaNumber) {
-            this.tandaNumber = tandaNumber;
+        public void setTimeNumber(int TimeNumber) {
+            this.TimeNumber = TimeNumber;
         }
 
         public int getSeatNum() {
