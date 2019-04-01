@@ -10,7 +10,6 @@ public class Stage1BootUp extends absGUI {
 
     void startProgram() {
         Stage2login DSP1_login = new Stage2login();
-        // dropTables();
         CR8ConfigurationTable();
         setConfiguration();
         this.configuration = cacheConfiguration();
@@ -28,22 +27,12 @@ public class Stage1BootUp extends absGUI {
 //        map.forEach((key, value) -> System.out.println(key + ":" + value));
     }
 
-    void dropTables() {
-        System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
-        ArrayList<String> querryResults;
-        String query = "select CAST(TABLENAME as varchar(32)) from SYS.SYSTABLES where tabletype <> 'S'";
-        querryResults = ExeDDL(query);
-        for (String tableName : querryResults) {
-            System.out.println("Dropping table: " + tableName);
-            System.out.println((ExeDML("DROP TABLE ROOT." + tableName) == 0) ? tableName + "  Table was drop" : "Fail to drop table " + tableName);
-        }
-    }
 
     void CR8ConfigurationTable() {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
-        query = "CREATE TABLE ROOT.Configuration\n\t\t"
+        query = "CREATE TABLE IF NOT EXISTS Configuration\n\t\t"
                 + "(property VARCHAR(15) NOT NULL,\n\t\t"
                 + "setting INTEGER NOT NULL)";
         System.out.println((ExeDML(query) == 0) ? "User table was created" : "[Error] USERS Table was not Created");
@@ -65,18 +54,19 @@ public class Stage1BootUp extends absGUI {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
-        query = "CREATE TABLE ROOT.USERS\n\t\t"
-                + "(userID INTEGER not null primary key\n\t\t"
-                + "GENERATED ALWAYS AS IDENTITY (START WITH 100, INCREMENT BY 1),\n\t\t"
-                + "FNAME VARCHAR(15) DEFAULT 'First Name' NOT NULL,\n\t\t"
-                + "lName VARCHAR(15) DEFAULT 'Last Name' NOT NULL,\n\t\t"
-                + "EMail VARCHAR(25) DEFAULT 'some@one.Com' NOT NULL UNIQUE,\n\t\t"
-                + "username VARCHAR(25) DEFAULT 'some@one.Com' NOT NULL,\n\t\t"
-                + "password VARCHAR(10) DEFAULT 'secreat' NOT NULL,\n\t\t"
-                + "BankCard VARCHAR(25) DEFAULT '4444333322221111' NOT NULL,\n\t\t"
-                + "isLogin BOOLEAN DEFAULT false NOT NULL,\n\t\t"
-                + "isAdmin BOOLEAN DEFAULT true NOT NULL,\n\t\t"
-                + "Token INTEGER)";
+        query = "CREATE TABLE IF NOT EXISTS \"USERS\"\n" +
+                "(\n" +
+                "  \"userID\" INTEGER                                not null primary key AUTOINCREMENT,\n" +
+                "  FNAME    VARCHAR(15) DEFAULT 'First Name'       NOT NULL,\n" +
+                "  lName    VARCHAR(15) DEFAULT 'Last Name'        NOT NULL,\n" +
+                "  EMail    VARCHAR(25) DEFAULT 'some@one.Com'     NOT NULL UNIQUE,\n" +
+                "  username VARCHAR(25) DEFAULT 'some@one.Com'     NOT NULL,\n" +
+                "  password VARCHAR(10) DEFAULT 'secreat'          NOT NULL,\n" +
+                "  BankCard VARCHAR(25) DEFAULT '4444333322221111' NOT NULL,\n" +
+                "  isLogin  BOOLEAN     DEFAULT false              NOT NULL,\n" +
+                "  isAdmin  BOOLEAN     DEFAULT true               NOT NULL,\n" +
+                "  Token    INTEGER\n" +
+                ");";
 
         System.out.println((ExeDML(query) == 0) ? "User table was created" : "[Error] USERS Table was not Created");
     }
@@ -102,14 +92,15 @@ public class Stage1BootUp extends absGUI {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
-        query = "CREATE TABLE ROOT.SEATS\n\t\t"
-                + "(seatID INTEGER not null primary key\n\t\t"
-                + "GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n\t\t"
-                + "movieID INTEGER NOT NULL,\n\t\t"
-                + "Tanda INTEGER NOT NULL,\n\t\t"
-                + "seatNum INTEGER not null,\n\t\t"
-                + "isBooked BOOLEAN DEFAULT false NOT NULL,\n\t\t"
-                + "BookedBy VARCHAR(25))";
+        query = "CREATE TABLE IF NOT EXISTS SEATS\n" +
+                "(\n" +
+                "  seatID   INTEGER               not null primary key AUTOINCREMENT,\n" +
+                "  movieID  INTEGER               NOT NULL,\n" +
+                "  Tanda    INTEGER               NOT NULL,\n" +
+                "  seatNum  INTEGER               not null,\n" +
+                "  isBooked BOOLEAN DEFAULT false NOT NULL,\n" +
+                "  BookedBy VARCHAR(25)\n" +
+                ");";
         System.out.println((ExeDML(query) == 0) ? "SEATS table was created" : "[Error] SEATS Table was not Created");
     }
 
@@ -117,14 +108,15 @@ public class Stage1BootUp extends absGUI {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
-        query = "CREATE TABLE ROOT.Reservations\n\t\t"
-                + "(ReservationID INTEGER not null primary key\n\t\t"
-                + "GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n\t\t"
-                + "seatID INTEGER not null,\n\t\t"
-                + "seatNum INTEGER not null,\n\t\t"
-                + "movieID INTEGER NOT NULL,\n\t\t"
-                + "Tanda INTEGER NOT NULL,\n\t\t"
-                + "BookedBy VARCHAR(25) NOT NULL)";
+        query = "CREATE TABLE IF NOT EXISTS Reservations\n" +
+                "(\n" +
+                "  ReservationID INTEGER     not null primary key AUTOINCREMENT,\n" +
+                "  seatID        INTEGER     not null,\n" +
+                "  seatNum       INTEGER     not null,\n" +
+                "  movieID       INTEGER     NOT NULL,\n" +
+                "  Tanda         INTEGER     NOT NULL,\n" +
+                "  BookedBy      VARCHAR(25) NOT NULL\n" +
+                ");";
         System.out.println((ExeDML(query) == 0) ? "SEATS table was created" : "[Error] SEATS Table was not Created");
     }
 
@@ -132,11 +124,12 @@ public class Stage1BootUp extends absGUI {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
-        query = "CREATE TABLE ROOT.Movies\n\t\t"
-                + "(MovieID INTEGER not null primary key\n\t\t"
-                + "GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n\t\t"
-                + "MovieName VARCHAR(20) DEFAULT 'Movie Name' NOT NULL,\n\t\t"
-                + "iconImageLocation VARCHAR(75) DEFAULT 'Relative URL' NOT NULL)";
+        query = "CREATE TABLE IF NOT EXISTS Movies\n" +
+                "(\n" +
+                "  MovieID           INTEGER                            not null primary key AUTOINCREMENT,\n" +
+                "  MovieName         VARCHAR(20) DEFAULT 'Movie Name'   NOT NULL,\n" +
+                "  iconImageLocation VARCHAR(75) DEFAULT 'Relative URL' NOT NULL\n" +
+                ");";
         System.out.println((ExeDML(query) == 0) ? "Movie table was created" : "[Error] Movie Table was not Created");
     }
 

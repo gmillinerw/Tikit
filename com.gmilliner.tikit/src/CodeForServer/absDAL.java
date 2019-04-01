@@ -18,20 +18,17 @@ import java.util.logging.Logger;
  */
 public abstract class absDAL {
 
-    String host;
-    String DBUsername;
-    String DBpassword;
+    String DATA_SOURCE;
 
     public absDAL() {
-        this.host = "jdbc:derby://localhost:1527/DB_Tikit";
-        this.DBUsername = "root";
-        this.DBpassword = "root";
+        //this.DATA_SOURCE = ":memory:;Version=3;New=True;";
+        this.DATA_SOURCE = "jdbc:sqlite:/Users/Guilder W. Milliner/Dropbox/Fidelitas/Projectos y Trabajos/Tikit/com.gmilliner.tikit/SQlite/TikitDB.db";
     }
 
     //<editor-fold defaultstate="collapsed" desc="Data Manipulation Language (DML) Statements">//</editor-fold>
     public int ExeDML(String query) {
-        System.out.println("ExeDML will run SQL Querry:\n\t\t" + query);
-        try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
+        System.out.println("ExeDML will run SQL Query:\n\t\t" + query);
+        try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             PreparedStatement stmt = Connection.prepareStatement(query);
             System.out.println(stmt.executeUpdate() + " row Was modifyed");
         } catch (SQLException ex) {
@@ -44,7 +41,7 @@ public abstract class absDAL {
     int ExeBulkPreparedSTMT(String query, Map<String, List<Integer>> Hall, int seatCoaunter) {
         System.out.println("ExeBatcPreparedSTMT will run prepared statement:\n\t\t" + query);
 
-        try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
+        try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             Connection.setAutoCommit(false);
             PreparedStatement pstmt = Connection.prepareStatement(query);
             for (int i = 0; i < seatCoaunter; i++) {
@@ -85,7 +82,7 @@ public abstract class absDAL {
         for (String Key : keys) {
             result.put(Key, new ArrayList<>());
         }
-        try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
+        try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
@@ -106,7 +103,7 @@ public abstract class absDAL {
 
         ArrayList<Integer> result = new ArrayList<>();
 
-        try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
+        try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
@@ -124,7 +121,7 @@ public abstract class absDAL {
         System.out.println("ExeDDL will run SQL Querry:\n\t\t" + query);
         ArrayList<String> querryResults = new ArrayList<>();
 
-        try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
+        try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = stmt.executeQuery();
             ResultSetMetaData resultSetMD = resultSet.getMetaData();
@@ -169,8 +166,8 @@ public abstract class absDAL {
     protected int intQuerry(String query) {
         System.out.println("intQuerry will run SQL Querry:\n\t\t" + query);
         int result = 0;
-        try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
-            PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
+            PreparedStatement stmt = Connection.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
@@ -189,8 +186,8 @@ public abstract class absDAL {
     protected boolean booleanQuerry(String query) {
         System.out.println("booleanDDL will run SQL Querry:\n\t\t" + query);
         boolean result = false;
-        try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
-            PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
+            PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 result = resultSet.getBoolean(1);
@@ -209,7 +206,7 @@ public abstract class absDAL {
     protected String stringQuerry(String query) {
         System.out.println("stringDDL will run SQL Querry:\n\t\t" + query);
         String result = null;
-        try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
+        try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
