@@ -17,42 +17,18 @@ public class SQliteDDL extends SQlite {
      */
 
     /**
-     * will return a String ArrayList, as a column.
+     * will return a single int value.
      */
-    Map<String, List<Object>> getmapQuery(String query) {
-        System.out.println("intQuery will run SQL Query:\n\t\t" + query);
+    public static int SQliteDDL
 
-        Map<String, List<Object>> result = new HashMap<>();
-        String[] keys = query.replace(" ", "").replace("SELECT", "").split("FROM")[0].split(",");
-        for (String Key : keys) {
-            result.put(Key, new ArrayList<>());
-        }
+    intQuery(String query) {
+        System.out.println("SQliteDDL.intQuery will run SQL Query:\n\t\t" + query);
+        int result = 0;
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             PreparedStatement stmt = Connection.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
-            while (resultSet.next()) {
-                for (int i = 1; i < keys.length; i++) {
-                    result.get(keys[i]).add(resultSet.getInt(keys[i]));
-                }
-            }
-            PrintResultSet(resultSet);
-        } catch (SQLException ex) {
-            Logger.getLogger(absDAL.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Query failed to run");
-        }
-        return result;
-    }
-
-    ArrayList<Integer> getintListQuery(String query) {
-        System.out.println("intQuery will run SQL Query:\n\t\t" + query);
-
-        ArrayList<Integer> result = new ArrayList<>();
-
-        try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
-            PreparedStatement stmt = Connection.prepareStatement(query);
-            ResultSet resultSet = stmt.executeQuery();
-            while (resultSet.next()) {
-                result.add(resultSet.getInt(1));
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
             }
             PrintResultSet(resultSet);
         } catch (SQLException ex) {
@@ -106,16 +82,42 @@ public class SQliteDDL extends SQlite {
     }
 
     /**
-     * will return a single int value.
+     * will return a String ArrayList, as a column.
      */
-    protected int intQuery(String query) {
-        System.out.println("intQuery will run SQL Query:\n\t\t" + query);
-        int result = 0;
+    Map<String, List<Object>> getmapQuery(String query) {
+        System.out.println("SQliteDDL.intQuery will run SQL Query:\n\t\t" + query);
+
+        Map<String, List<Object>> result = new HashMap<>();
+        String[] keys = query.replace(" ", "").replace("SELECT", "").split("FROM")[0].split(",");
+        for (String Key : keys) {
+            result.put(Key, new ArrayList<>());
+        }
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             PreparedStatement stmt = Connection.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
-            if (resultSet.next()) {
-                result = resultSet.getInt(1);
+            while (resultSet.next()) {
+                for (int i = 1; i < keys.length; i++) {
+                    result.get(keys[i]).add(resultSet.getInt(keys[i]));
+                }
+            }
+            PrintResultSet(resultSet);
+        } catch (SQLException ex) {
+            Logger.getLogger(absDAL.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Query failed to run");
+        }
+        return result;
+    }.
+
+    ArrayList<Integer> getintListQuery(String query) {
+        System.out.println("SQliteDDL.intQuery will run SQL Query:\n\t\t" + query);
+
+        ArrayList<Integer> result = new ArrayList<>();
+
+        try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
+            PreparedStatement stmt = Connection.prepareStatement(query);
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                result.add(resultSet.getInt(1));
             }
             PrintResultSet(resultSet);
         } catch (SQLException ex) {

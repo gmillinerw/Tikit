@@ -44,7 +44,7 @@ public class Stage2login extends absGUI {
 //            System.out.println("The logic result for loginButton is: " + logicResult);
 //
             String query = "SELECT userID FROM USERS where username ='" + userName + "' and Password='" + Password + "'";
-            int userID = intQuery(query);
+            int userID = SQliteDDL.intQuery(query);
 
             if (userID > 0) {
                 System.out.println("Password: " + Password + " coresponds to user: " + userName);

@@ -167,7 +167,7 @@ public class Stage5Seat extends absGUI {
         if (!booleanQuery(query)) {
             query = "SELECT ReservationID FROM RESERVATIONS where movieID = " + hall.getMovieID() + " and Time = "
                     + hall.getTimeNumber() + " and seatNum = " + DSPSeatNumber + " and BookedBy = '" + user.getUserName() + "'";
-            if (intQuery(query) > 0) {
+            if (SQliteDDL.intQuery(query) > 0) {
 
                 ExeDML("DELETE FROM RESERVATIONS WHERE movieID=" + hall.getMovieID() + " and Time=" + hall.getTimeNumber()
                         + " and seatNum=" + DSPSeatNumber + " and BookedBy='" + user.getUserName() + "'");
