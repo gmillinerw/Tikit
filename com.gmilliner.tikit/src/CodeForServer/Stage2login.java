@@ -44,7 +44,7 @@ public class Stage2login extends absGUI {
 //            System.out.println("The logic result for loginButton is: " + logicResult);
 //
             String query = "SELECT userID FROM USERS where username ='" + userName + "' and Password='" + Password + "'";
-            int userID = intQuerry(query);
+            int userID = intQuery(query);
 
             if (userID > 0) {
                 System.out.println("Password: " + Password + " coresponds to user: " + userName);
@@ -105,8 +105,8 @@ public class Stage2login extends absGUI {
             System.out.println("Verifying if user exist: " + userName);
 
             String query = "SELECT FirstName FROM USERS where Email ='" + userName + "'";
-            ArrayList<String> querryResults = ExeDDL(query);
-            boolean logicResult = !querryResults.isEmpty();
+            ArrayList<String> QueryResults = ExeDDL(query);
+            boolean logicResult = !QueryResults.isEmpty();
             System.out.println("The logic result for isTokenValid is: " + logicResult);
             if (logicResult) {
                 System.out.println(userName + " Is a valid user name");
@@ -186,11 +186,11 @@ public class Stage2login extends absGUI {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
         System.out.println("will atempt validate Token: " + token + " for user: " + userName);
 
-        ArrayList<String> querryResults;
+        ArrayList<String> QueryResults;
         String query = "SELECT FirstName FROM USERS where Email ='" + userName + "' and Token=" + token;
-        querryResults = ExeDDL(query);
+        QueryResults = ExeDDL(query);
 
-        boolean logicResult = !querryResults.isEmpty();
+        boolean logicResult = !QueryResults.isEmpty();
         System.out.println("The logic result for isTokenValid is: " + logicResult);
         if (logicResult) {
             System.out.println("The token: " + token + " is valid for user: " + userName);
@@ -216,10 +216,10 @@ public class Stage2login extends absGUI {
 
         Runnable mailServer = () -> {
             System.out.println("Runnable running");
-            ArrayList<String> querryResults;
+            ArrayList<String> QueryResults;
             String query1 = "SELECT EMail FROM USERS where username ='" + userName + "'";
-            querryResults = ExeDDL(query1);
-            String Email = querryResults.get(0);
+            QueryResults = ExeDDL(query1);
+            String Email = QueryResults.get(0);
             String Subject = "Reset Token";
             String message = "Your token is: " + token + "\n\t Thank you";
             System.out.println("will atempt to send toaken: " + token + " to Email: " + userName);

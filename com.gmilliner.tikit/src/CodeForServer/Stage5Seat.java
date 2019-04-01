@@ -137,14 +137,14 @@ public class Stage5Seat extends absGUI {
         String query;
         query = "SELECT SeatNum FROM SEATS where movieID = " + hall.getMovieID()
                 + " and Time = " + hall.getTimeNumber() + " and isBooked = True";
-        ArrayList<Integer> OccupiedSeatList = getintListQuerry(query);
+        ArrayList<Integer> OccupiedSeatList = getintListQuery(query);
         for (int i = 0; i < OccupiedSeatList.size(); i++) {
             seatButton[OccupiedSeatList.get(i) - 1].setIcon(movieImage[OccupiedSeat]);
         }
 
         query = "SELECT seatNum FROM RESERVATIONS where movieID = " + hall.getMovieID()
                 + " and Time = " + hall.getTimeNumber() + " and BookedBy = '" + user.getUserName() + "'";
-        ArrayList<Integer> selectedSeatList = getintListQuerry(query);
+        ArrayList<Integer> selectedSeatList = getintListQuery(query);
         for (int i = 0; i < selectedSeatList.size(); i++) {
             seatButton[selectedSeatList.get(i) - 1].setIcon(movieImage[selectedSeat]);
         }
@@ -164,10 +164,10 @@ public class Stage5Seat extends absGUI {
         query = "SELECT isBooked FROM SEATS where movieID = " + hall.getMovieID()
                 + " and Time = " + hall.getTimeNumber() + " and seatNum = " + DSPSeatNumber;
 
-        if (!booleanQuerry(query)) {
+        if (!booleanQuery(query)) {
             query = "SELECT ReservationID FROM RESERVATIONS where movieID = " + hall.getMovieID() + " and Time = "
                     + hall.getTimeNumber() + " and seatNum = " + DSPSeatNumber + " and BookedBy = '" + user.getUserName() + "'";
-            if (intQuerry(query) > 0) {
+            if (intQuery(query) > 0) {
 
                 ExeDML("DELETE FROM RESERVATIONS WHERE movieID=" + hall.getMovieID() + " and Time=" + hall.getTimeNumber()
                         + " and seatNum=" + DSPSeatNumber + " and BookedBy='" + user.getUserName() + "'");

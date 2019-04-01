@@ -3,28 +3,28 @@ package CodeForServer;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public abstract class absCaches extends absDAL {
+public abstract class absCaches {
 
     Configuration cacheConfiguration() {
         Configuration Configuration = new Configuration();
-        Configuration.setNumMovies(intQuerry("SELECT setting FROM Configuration where property ='numMovies'"));
-        Configuration.setNumSeats(intQuerry("SELECT setting FROM Configuration where property ='numSeats'"));
-        Configuration.setNumTimes(intQuerry("SELECT setting FROM Configuration where property ='numTimes'"));
-        Configuration.setPrice(intQuerry("SELECT setting FROM Configuration where property ='price'"));
+        Configuration.setNumMovies(intQuery("SELECT setting FROM Configuration where property ='numMovies'"));
+        Configuration.setNumSeats(intQuery("SELECT setting FROM Configuration where property ='numSeats'"));
+        Configuration.setNumTimes(intQuery("SELECT setting FROM Configuration where property ='numTimes'"));
+        Configuration.setPrice(intQuery("SELECT setting FROM Configuration where property ='price'"));
         return Configuration;
     }
 
     User cacheUser(int userID) {
         User user = new User();
         user.setUserID(userID);
-        user.setFirstName(stringQuerry("SELECT FirstName FROM USERS where userID = " + userID));
-        user.setLastName(stringQuerry("SELECT LastName FROM  USERS where userID = " + userID));
-        String EMail = stringQuerry("SELECT EMail FROM USERS where userID = " + userID);
-        user.setUserName(stringQuerry("SELECT UserName FROM USERS where userID = " + userID), EMail);
-        user.setPassword(stringQuerry("SELECT Password FROM USERS where userID = " + userID));
-        user.setBankCard(stringQuerry("SELECT BankCard FROM USERS where userID = " + userID));
-        user.setLogin(booleanQuerry("SELECT isLogin FROM USERS where userID = " + userID));
-        user.setAdmin(booleanQuerry("SELECT isAdmin FROM USERS where userID = " + userID));
+        user.setFirstName(stringQuery("SELECT FirstName FROM USERS where userID = " + userID));
+        user.setLastName(stringQuery("SELECT LastName FROM  USERS where userID = " + userID));
+        String EMail = stringQuery("SELECT EMail FROM USERS where userID = " + userID);
+        user.setUserName(stringQuery("SELECT UserName FROM USERS where userID = " + userID), EMail);
+        user.setPassword(stringQuery("SELECT Password FROM USERS where userID = " + userID));
+        user.setBankCard(stringQuery("SELECT BankCard FROM USERS where userID = " + userID));
+        user.setLogin(booleanQuery("SELECT isLogin FROM USERS where userID = " + userID));
+        user.setAdmin(booleanQuery("SELECT isAdmin FROM USERS where userID = " + userID));
 
         return user;
     }
@@ -36,7 +36,7 @@ public abstract class absCaches extends absDAL {
         hall.setTimeNumber(TimeSelected);
         String query = "select MovieID from  Movies where MovieName = '"
                 + hall.getMovieName() + "'";
-        hall.setMovieID(intQuerry(query));
+        hall.setMovieID(intQuery(query));
         return hall;
     }
 
@@ -140,9 +140,9 @@ public abstract class absCaches extends absDAL {
 
         boolean isEmailUnique(String EMail) {
 
-            ArrayList<String> querryResults;
-            querryResults = ExeDDL("SELECT Email FROM USERS where Email='" + EMail + "'");
-            boolean logicResult = querryResults.isEmpty();
+            ArrayList<String> QueryResults;
+            QueryResults = ExeDDL("SELECT Email FROM USERS where Email='" + EMail + "'");
+            boolean logicResult = QueryResults.isEmpty();
             System.out.println("The logic result for isEmailUnique is: " + logicResult);
             if (logicResult) {
                 return true;
