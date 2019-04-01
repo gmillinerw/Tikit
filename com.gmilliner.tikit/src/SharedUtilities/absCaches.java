@@ -1,4 +1,6 @@
-package DatabaseConnection;
+package SharedUtilities;
+
+import DatabaseConnection.absDAL;
 
 import javax.swing.*;
 import java.util.ArrayList;

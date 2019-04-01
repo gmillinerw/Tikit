@@ -120,7 +120,7 @@ public abstract class absDAL {
         return result;
     }
 
-    ArrayList<String> ExeDDL(String query) {
+    protected ArrayList<String> ExeDDL(String query) {
         System.out.println("ExeDDL will run SQL Querry:\n\t\t" + query);
         ArrayList<String> querryResults = new ArrayList<>();
 
@@ -166,7 +166,7 @@ public abstract class absDAL {
     /**
      * will return a single int value.
      */
-    int intQuerry(String query) {
+    protected int intQuerry(String query) {
         System.out.println("intQuerry will run SQL Querry:\n\t\t" + query);
         int result = 0;
         try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
@@ -186,7 +186,7 @@ public abstract class absDAL {
     /**
      * will return a single boolean value.
      */
-    boolean booleanQuerry(String query) {
+    protected boolean booleanQuerry(String query) {
         System.out.println("booleanDDL will run SQL Querry:\n\t\t" + query);
         boolean result = false;
         try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
@@ -206,7 +206,7 @@ public abstract class absDAL {
     /**
      * will return a single string value.
      */
-    String stringQuerry(String query) {
+    protected String stringQuerry(String query) {
         System.out.println("stringDDL will run SQL Querry:\n\t\t" + query);
         String result = null;
         try (Connection Connection = DriverManager.getConnection(host, DBUsername, DBpassword)) {
