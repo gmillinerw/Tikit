@@ -1,4 +1,4 @@
-package SharedUtilities;
+package CodeForServer;
 
 import DatabaseConnection.absDAL;
 

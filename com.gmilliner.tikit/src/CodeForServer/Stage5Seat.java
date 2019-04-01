@@ -1,13 +1,10 @@
 package CodeForServer;
 
-import SharedUtilities.absGUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 
 public class Stage5Seat extends absGUI {
 
@@ -36,7 +33,6 @@ public class Stage5Seat extends absGUI {
 //        seaticon.add(2, new ImageIcon("/Media/selectedSeat.png"));
     JLabel listSeats = new JLabel("No seats has been selected");
     JLabel totalCost = new JLabel("The toal cost is: 0");
-
     Stage5Seat(User user, Configuration configuration) {
         this.user = user;
         this.Stage3Home = new Stage3Home(user);
