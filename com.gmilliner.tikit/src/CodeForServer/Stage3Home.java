@@ -1,4 +1,4 @@
-package CodeServer;
+package CodeForServer;
 
 import javax.swing.*;
 import java.awt.*;

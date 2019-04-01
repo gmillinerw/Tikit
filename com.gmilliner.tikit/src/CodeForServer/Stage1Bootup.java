@@ -1,4 +1,4 @@
-package CodeServer;
+package CodeForServer;
 
 import java.util.*;
 

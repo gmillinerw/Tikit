@@ -7,7 +7,7 @@
  * @author Glennmar Milliner Whitaker
  * @author Guilder Milliner Whitaker
  */
-package CodeServer;
+package CodeForServer;
 
 public class Main {
 
