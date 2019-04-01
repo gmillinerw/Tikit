@@ -1,14 +1,16 @@
 package CodeForServer;
 
+import SharedUtilities.Utilities;
+
 import java.util.*;
 
-public class Stage1Bootup extends absGUI {
+public class Stage1BootUp extends absGUI {
 
     Configuration configuration = new Configuration();
 
     void startProgram() {
         Stage2login DSP1_login = new Stage2login();
-        dropTables();
+        // dropTables();
         CR8ConfigurationTable();
         setConfiguration();
         this.configuration = cacheConfiguration();
@@ -31,9 +33,9 @@ public class Stage1Bootup extends absGUI {
         ArrayList<String> querryResults;
         String query = "select CAST(TABLENAME as varchar(32)) from SYS.SYSTABLES where tabletype <> 'S'";
         querryResults = ExeDDL(query);
-        for (String tabeName : querryResults) {
-            System.out.println("Dropping table: " + tabeName);
-            System.out.println((ExeDML("DROP TABLE ROOT." + tabeName) == 0) ? tabeName + "  Table was drop" : "Fail to drop table " + tabeName);
+        for (String tableName : querryResults) {
+            System.out.println("Dropping table: " + tableName);
+            System.out.println((ExeDML("DROP TABLE ROOT." + tableName) == 0) ? tableName + "  Table was drop" : "Fail to drop table " + tableName);
         }
     }
 

@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 //<editor-fold defaultstate="collapsed" desc="abstract Data Access Layer">//</editor-fold>
 
 /**
- * Intended to provide access to the Database. all class shul inherited this
+ * Intended to provide access to the Database.
  * abstract
  * <p>
  * absDAL abstract Data Access Layer
@@ -70,9 +70,9 @@ public abstract class absDAL {
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Data Definition Language (DDL) Statements">//</editor-fold>
 
-    /**
-     * methods to create a Data Definition Language (DDL) Statements using the a
-     * try cache
+    /*
+      methods to create a Data Definition Language (DDL) Statements using the a
+      try cache
      */
     /**
      * will return a String ArrayList, as a column.

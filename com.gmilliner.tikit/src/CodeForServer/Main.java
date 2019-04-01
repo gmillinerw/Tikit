@@ -12,7 +12,7 @@ package CodeForServer;
 public class Main {
 
     public static void main(String[] args) {
-        Stage1Bootup BootProcesses = new Stage1Bootup();
+        Stage1BootUp BootProcesses = new Stage1BootUp();
         BootProcesses.startProgram();
     }
 }
