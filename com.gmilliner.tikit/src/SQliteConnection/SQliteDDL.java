@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SQliteDDL extends SQlite {
+public abstract class SQliteDDL extends SQliteDML {
    /*
       methods to create a Data Definition Language (DDL) Statements using the a
       try cache
@@ -19,10 +19,8 @@ public class SQliteDDL extends SQlite {
     /**
      * will return a single int value.
      */
-    public static int SQliteDDL
-
-    intQuery(String query) {
-        System.out.println("SQliteDDL.intQuery will run SQL Query:\n\t\t" + query);
+    public int intQuery(String query) {
+        System.out.println("intQuery will run SQL Query:\n\t\t" + query);
         int result = 0;
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             PreparedStatement stmt = Connection.prepareStatement(query);
@@ -85,7 +83,7 @@ public class SQliteDDL extends SQlite {
      * will return a String ArrayList, as a column.
      */
     Map<String, List<Object>> getmapQuery(String query) {
-        System.out.println("SQliteDDL.intQuery will run SQL Query:\n\t\t" + query);
+        System.out.println("intQuery will run SQL Query:\n\t\t" + query);
 
         Map<String, List<Object>> result = new HashMap<>();
         String[] keys = query.replace(" ", "").replace("SELECT", "").split("FROM")[0].split(",");
@@ -106,10 +104,10 @@ public class SQliteDDL extends SQlite {
             System.out.println("Query failed to run");
         }
         return result;
-    }.
+    }
 
-    ArrayList<Integer> getintListQuery(String query) {
-        System.out.println("SQliteDDL.intQuery will run SQL Query:\n\t\t" + query);
+    public ArrayList<Integer> getintListQuery(String query) {
+        System.out.println("intQuery will run SQL Query:\n\t\t" + query);
 
         ArrayList<Integer> result = new ArrayList<>();
 

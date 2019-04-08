@@ -7,9 +7,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class SQliteDML extends SQlite {
+public abstract class SQliteDML {
 
-    public int ExeDML(String query) {
+    static String DATA_SOURCE;
+
+    public SQliteDML() {
+        DATA_SOURCE = "jdbc:sqlite:com.gmilliner.tikit/DataBase/TikitSQlite.db";
+    }
+
+    public static int ExeDML(String query) {
         System.out.println("ExeDML will run SQL Query:\n\t\t" + query);
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
             PreparedStatement stmt = Connection.prepareStatement(query);
@@ -21,7 +27,7 @@ public class SQliteDML extends SQlite {
         return 0;
     }
 
-    int ExeBatchPreparedSTMT(String query, Map<String, List<Integer>> Hall, int seatCounter) {
+    public int ExeBatchPreparedSTMT(String query, Map<String, List<Integer>> Hall, int seatCounter) {
         System.out.println("ExeBatchPreparedSTMT will run prepared statement:\n\t\t" + query);
 
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {

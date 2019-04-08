@@ -1,5 +1,6 @@
 package CodeForServer;
 
+import SQliteConnection.SQliteCRUD;
 import SharedUtilities.Utilities;
 
 import java.util.*;
@@ -31,7 +32,7 @@ public class Stage1BootUp extends absGUI {
         query = "CREATE TABLE IF NOT EXISTS Configuration\n\t\t"
                 + "(property VARCHAR(15) NOT NULL,\n\t\t"
                 + "setting INTEGER NOT NULL)";
-        System.out.println((ExeDML(query) == 0) ? "User table was created" : "[Error] USERS Table was not Created");
+        System.out.println((SQliteCRUD.ExeDML(query) == 0) ? "User table was created" : "[Error] USERS Table was not Created");
     }
 
     void setConfiguration() {
@@ -161,7 +162,7 @@ public class Stage1BootUp extends absGUI {
         }
 
         String query = "INSERT INTO Seats (movieID, Time, seatNum, isBooked) VALUES (?, ?, ?, false)";
-        ExeBulkPreparedSTMT(query, Hall, seatCounter);
+        ExeBatchPreparedSTMT(query, Hall, seatCounter);
 
         System.out.println(seatCounter + " seats should have been created");
         randSeats(maxPCT, minPCT, Configuration);
@@ -189,7 +190,7 @@ public class Stage1BootUp extends absGUI {
             }
         }
         String query = "UPDATE Seats SET isBooked=true where movieID = ? and Time = ? and seatNum=?";
-        ExeBulkPreparedSTMT(query, Hall, randCounter);
+        ExeBatchPreparedSTMT(query, Hall, randCounter);
         System.out.println(randCounter + " seats should have been randomise");
     }
 }

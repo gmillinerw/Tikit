@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="javax.mail">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Liberys/javax.mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/com.gmilliner.tikit/Libery/javax.mail.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

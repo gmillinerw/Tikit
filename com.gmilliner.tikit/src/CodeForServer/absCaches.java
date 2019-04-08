@@ -1,18 +1,18 @@
 package CodeForServer;
 
-import SQliteConnection.SQliteDDL;
+import SQliteConnection.SQliteCRUD;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public abstract class absCaches {
+public abstract class absCaches extends SQliteCRUD {
 
     Configuration cacheConfiguration() {
         Configuration Configuration = new Configuration();
-        Configuration.setNumMovies(SQliteDDL.intQuery("SELECT setting FROM Configuration where property ='numMovies'"));
-        Configuration.setNumSeats(SQliteDDL.intQuery("SELECT setting FROM Configuration where property ='numSeats'"));
-        Configuration.setNumTimes(SQliteDDL.intQuery("SELECT setting FROM Configuration where property ='numTimes'"));
-        Configuration.setPrice(SQliteDDL.intQuery("SELECT setting FROM Configuration where property ='price'"));
+        Configuration.setNumMovies(intQuery("SELECT setting FROM Configuration where property ='numMovies'"));
+        Configuration.setNumSeats(intQuery("SELECT setting FROM Configuration where property ='numSeats'"));
+        Configuration.setNumTimes(intQuery("SELECT setting FROM Configuration where property ='numTimes'"));
+        Configuration.setPrice(intQuery("SELECT setting FROM Configuration where property ='price'"));
         return Configuration;
     }
 
@@ -38,7 +38,7 @@ public abstract class absCaches {
         hall.setTimeNumber(TimeSelected);
         String query = "select MovieID from  Movies where MovieName = '"
                 + hall.getMovieName() + "'";
-        hall.setMovieID(SQliteDDL.intQuery(query));
+        hall.setMovieID(intQuery(query));
         return hall;
     }
 

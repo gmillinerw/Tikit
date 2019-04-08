@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/com.gmilliner.tikit/com.gmilliner.tikit.iml" filepath="$PROJECT_DIR$/com.gmilliner.tikit/com.gmilliner.tikit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.gmilliner.tikit/Tikit.iml" filepath="$PROJECT_DIR$/com.gmilliner.tikit/Tikit.iml" />
     </modules>
   </component>
 </project>
