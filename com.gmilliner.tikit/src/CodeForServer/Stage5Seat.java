@@ -6,33 +6,33 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Stage5Seat extends absGUI {
+class Stage5Seat extends absGUI {
 
     int userID;
     String movieSelected;
     int TimeSelected;
-    int errorCount;
-    User user;
-    Hall hall;
-    Configuration configuration;
-    Stage3Home Stage3Home;
-    JButton[] seatButton;
+    private final User user;
+    private final Configuration configuration;
+    private final Stage3Home Stage3Home;
     //    this.movieImage = new ImageIcon[3];
-    ImageIcon[] movieImage = {
+    private final ImageIcon[] movieImage = {
             new ImageIcon(getClass().getResource("/Media/FreeSeat.png")),
             new ImageIcon(getClass().getResource("/Media/OccupiedSeat.png")),
             new ImageIcon(getClass().getResource("/Media/selectedSeat.png"))
     };
-    int FreeSeat = 0;
-    int OccupiedSeat = 1;
-    int selectedSeat = 2;
+    private final int FreeSeat = 0;
+    private final int OccupiedSeat = 1;
+    private final int selectedSeat = 2;
     //        ArrayList<JButton> seatButton = new ArrayList<>();
-//        ArrayList<ImageIcon> seaticon = new ArrayList<>();
-//        seaticon.add(0, new ImageIcon("/Media/FreeSeat.png"));
-//        seaticon.add(1, new ImageIcon("/Media/OccupiedSeat.png"));
-//        seaticon.add(2, new ImageIcon("/Media/selectedSeat.png"));
-    JLabel listSeats = new JLabel("No seats has been selected");
-    JLabel totalCost = new JLabel("The toal cost is: 0");
+//        ArrayList<ImageIcon> section = new ArrayList<>();
+//        section.add(0, new ImageIcon("/Media/FreeSeat.png"));
+//        section.add(1, new ImageIcon("/Media/OccupiedSeat.png"));
+//        section.add(2, new ImageIcon("/Media/selectedSeat.png"));
+    private final JLabel listSeats = new JLabel("No seats has been selected");
+    private final JLabel totalCost = new JLabel("The total cost is: 0");
+    private int errorCount;
+    private Hall hall;
+    private JButton[] seatButton;
     Stage5Seat(User user, Configuration configuration) {
         this.user = user;
         this.Stage3Home = new Stage3Home(user);
@@ -57,7 +57,7 @@ public class Stage5Seat extends absGUI {
 
     void getMainDisplay(String movieSelected, int TimeSelected) {
         System.out.println("METHOD INFO: " + Arrays.toString(Thread.currentThread().getStackTrace()));
-        setGUI("Chose Setas");
+        setGUI("Chose Seats");
         hall = cacheHall(movieSelected, TimeSelected);
         this.seatButton = new JButton[configuration.getNumSeats()];
 
@@ -130,30 +130,28 @@ public class Stage5Seat extends absGUI {
         setGUI(new JLabel(new ImageIcon(getClass().getResource("/Media/Seats.jpg"))));
         mainFrame.setLocationRelativeTo(null);
 
-        setseatIcons();
+        setSeatIcons();
     }
 
-    void setseatIcons() {
+    private void setSeatIcons() {
         String query;
         query = "SELECT SeatNum FROM SEATS where movieID = " + hall.getMovieID()
                 + " and Time = " + hall.getTimeNumber() + " and isBooked = True";
-        ArrayList<Integer> OccupiedSeatList = getintListQuery(query);
-        for (int i = 0; i < OccupiedSeatList.size(); i++) {
-            seatButton[OccupiedSeatList.get(i) - 1].setIcon(movieImage[OccupiedSeat]);
+        ArrayList<Integer> OccupiedSeatList = getIntListQuery(query);
+        for (Integer integer : OccupiedSeatList) {
+            seatButton[integer - 1].setIcon(movieImage[OccupiedSeat]);
         }
 
         query = "SELECT seatNum FROM RESERVATIONS where movieID = " + hall.getMovieID()
                 + " and Time = " + hall.getTimeNumber() + " and BookedBy = '" + user.getUserName() + "'";
-        ArrayList<Integer> selectedSeatList = getintListQuery(query);
-        for (int i = 0; i < selectedSeatList.size(); i++) {
-            seatButton[selectedSeatList.get(i) - 1].setIcon(movieImage[selectedSeat]);
+        ArrayList<Integer> selectedSeatList = getIntListQuery(query);
+        for (Integer integer : selectedSeatList) {
+            seatButton[integer - 1].setIcon(movieImage[selectedSeat]);
         }
 
         ArrayList<Integer> RemovedSeatList = new ArrayList<>(selectedSeatList);
         RemovedSeatList.removeAll(OccupiedSeatList);
-        RemovedSeatList.forEach((seat) -> {
-            System.out.println(seat);
-        });
+        RemovedSeatList.forEach(System.out::println);
     }
 
     private void seatButtonEvt(ActionEvent evt) {
@@ -172,9 +170,9 @@ public class Stage5Seat extends absGUI {
                 ExeDML("DELETE FROM RESERVATIONS WHERE movieID=" + hall.getMovieID() + " and Time=" + hall.getTimeNumber()
                         + " and seatNum=" + DSPSeatNumber + " and BookedBy='" + user.getUserName() + "'");
                 seatButton[ArraySeatNumber].setIcon(movieImage[FreeSeat]);
-                System.out.println("UNselected Seat #: " + DSPSeatNumber);
+                System.out.println("Unselected Seat #: " + DSPSeatNumber);
             } else {
-                ExeDML("INSERT INTO RESERVATIONS (SEATID,movieID, Time, seatNum, BookedBy) VALUES (" + 99 + "," + hall.getMovieID() + ","
+                ExeDML("INSERT INTO RESERVATIONS (SeatID,movieID, Time, seatNum, BookedBy) VALUES (" + 99 + "," + hall.getMovieID() + ","
                         + hall.getTimeNumber() + "," + DSPSeatNumber + ",'" + user.getUserName() + "')");
                 System.out.println("Selected Seat #: " + DSPSeatNumber);
                 seatButton[ArraySeatNumber].setIcon(movieImage[selectedSeat]);
@@ -184,11 +182,11 @@ public class Stage5Seat extends absGUI {
             errorCount++;
             seatButton[ArraySeatNumber].setIcon(movieImage[OccupiedSeat]);
             System.out.println("Seat: " + DSPSeatNumber + " ...  " + errorCount
-                    + " times user tryed to select a seat that was ocupied");
+                    + " times user tried to select a seat that was occupied");
         }
     }
 
-    public void tallySeats(ActionEvent evt) {
+    private void tallySeats(ActionEvent evt) {
         System.out.println("METHOD INFO: " + Arrays.toString(Thread.currentThread().getStackTrace()));
 
         String query = "SELECT seatNum FROM RESERVATIONS where movieID = " + hall.getMovieID() + " and Time = "
@@ -200,7 +198,7 @@ public class Stage5Seat extends absGUI {
             takenSeatsSB.append(Seat);
             takenSeatsSB.append(", ");
         }
-        String message = "Seats seleted: " + takenSeatsSB.toString();
+        String message = "Seats selected: " + takenSeatsSB.toString();
         listSeats.setText(message);
         System.out.println(message);
 

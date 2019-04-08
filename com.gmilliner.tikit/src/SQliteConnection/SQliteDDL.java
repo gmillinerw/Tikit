@@ -1,7 +1,5 @@
 package SQliteConnection;
 
-import CodeForServer.absDAL;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +17,7 @@ public abstract class SQliteDDL extends SQliteDML {
     /**
      * will return a single int value.
      */
-    public int intQuery(String query) {
+    protected int intQuery(String query) {
         System.out.println("intQuery will run SQL Query:\n\t\t" + query);
         int result = 0;
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
@@ -30,7 +28,7 @@ public abstract class SQliteDDL extends SQliteDML {
             }
             PrintResultSet(resultSet);
         } catch (SQLException ex) {
-            Logger.getLogger(absDAL.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQliteDDL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Query failed to run");
         }
         return result;
@@ -72,7 +70,7 @@ public abstract class SQliteDDL extends SQliteDML {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(absDAL.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQliteDDL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Query failed to run");
         }
         System.out.println("\t\t\t---- END OF QUERY RESULTS ----\n");
@@ -82,7 +80,7 @@ public abstract class SQliteDDL extends SQliteDML {
     /**
      * will return a String ArrayList, as a column.
      */
-    Map<String, List<Object>> getmapQuery(String query) {
+    Map<String, List<Object>> getMapQuery(String query) {
         System.out.println("intQuery will run SQL Query:\n\t\t" + query);
 
         Map<String, List<Object>> result = new HashMap<>();
@@ -100,13 +98,13 @@ public abstract class SQliteDDL extends SQliteDML {
             }
             PrintResultSet(resultSet);
         } catch (SQLException ex) {
-            Logger.getLogger(absDAL.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQliteDDL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Query failed to run");
         }
         return result;
     }
 
-    public ArrayList<Integer> getintListQuery(String query) {
+    protected ArrayList<Integer> getIntListQuery(String query) {
         System.out.println("intQuery will run SQL Query:\n\t\t" + query);
 
         ArrayList<Integer> result = new ArrayList<>();
@@ -119,7 +117,7 @@ public abstract class SQliteDDL extends SQliteDML {
             }
             PrintResultSet(resultSet);
         } catch (SQLException ex) {
-            Logger.getLogger(absDAL.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQliteDDL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Query failed to run");
         }
         return result;
@@ -132,14 +130,14 @@ public abstract class SQliteDDL extends SQliteDML {
         System.out.println("booleanDDL will run SQL Query:\n\t\t" + query);
         boolean result = false;
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
-            PreparedStatement stmt = Connection.prepareStatement(query, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement stmt = Connection.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 result = resultSet.getBoolean(1);
             }
             PrintResultSet(resultSet);
         } catch (SQLException ex) {
-            Logger.getLogger(absDAL.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQliteDDL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Query failed to run");
         }
         return result;
@@ -159,7 +157,7 @@ public abstract class SQliteDDL extends SQliteDML {
             }
             PrintResultSet(resultSet);
         } catch (SQLException ex) {
-            Logger.getLogger(absDAL.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQliteDDL.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Query failed to run");
         }
         return result;
@@ -168,7 +166,7 @@ public abstract class SQliteDDL extends SQliteDML {
     /**
      * will pint out the result set to the console.
      */
-    void PrintResultSet(ResultSet resultSet) {
+    private void PrintResultSet(ResultSet resultSet) {
         try {
             if (resultSet.next()) {
                 ResultSetMetaData resultSetMD = resultSet.getMetaData();
@@ -198,7 +196,7 @@ public abstract class SQliteDDL extends SQliteDML {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(absDAL.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQliteDDL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

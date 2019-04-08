@@ -5,7 +5,7 @@ import SQliteConnection.SQliteCRUD;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public abstract class absCaches extends SQliteCRUD {
+abstract class absCaches extends SQliteCRUD {
 
     Configuration cacheConfiguration() {
         Configuration Configuration = new Configuration();
@@ -49,35 +49,35 @@ public abstract class absCaches extends SQliteCRUD {
         private int numSeats;
         private int price;
 
-        public int getNumMovies() {
+        int getNumMovies() {
             return numMovies;
         }
 
-        public void setNumMovies(int numMovies) {
+        void setNumMovies(int numMovies) {
             this.numMovies = numMovies;
         }
 
-        public int getNumTimes() {
+        int getNumTimes() {
             return numTimes;
         }
 
-        public void setNumTimes(int numTimes) {
+        void setNumTimes(int numTimes) {
             this.numTimes = numTimes;
         }
 
-        public int getNumSeats() {
+        int getNumSeats() {
             return numSeats;
         }
 
-        public void setNumSeats(int numSeats) {
+        void setNumSeats(int numSeats) {
             this.numSeats = numSeats;
         }
 
-        public int getPrice() {
+        int getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        void setPrice(int price) {
             this.price = price;
         }
 
@@ -95,47 +95,47 @@ public abstract class absCaches extends SQliteCRUD {
         private boolean Login;
         private boolean admin;
 
-        public int getUserID() {
+        int getUserID() {
             return userID;
         }
 
-        public void setUserID(int userID) {
+        void setUserID(int userID) {
             this.userID = userID;
         }
 
-        public String getFirstName() {
+        String getFirstName() {
             return FirstName;
         }
 
-        public void setFirstName(String firstName) {
+        void setFirstName(String firstName) {
             this.FirstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
         }
 
-        public String getLastName() {
+        String getLastName() {
             return LastName;
         }
 
-        public void setLastName(String LastName) {
+        void setLastName(String LastName) {
             this.LastName = LastName.substring(0, 1).toUpperCase() + LastName.substring(1);
         }
 
-        public String getBankCard() {
+        String getBankCard() {
             return BankCard;
         }
 
-        public void setBankCard(String BankCard) {
+        void setBankCard(String BankCard) {
 
             this.BankCard = BankCard;
         }
 
-        public String getEMail() {
+        String getEMail() {
             return EMail;
         }
 
-        public void setEMail(String EMail) {
+        void setEMail(String EMail) {
             while (!(isEmailUnique(EMail) && isEmailSyntaxProper(EMail))) {
                 System.out.println("The logic for setEMail is: True");
-                EMail = JOptionPane.showInputDialog(null, "Ingrese correo del cliente:", "Agregar.", 3);
+                EMail = JOptionPane.showInputDialog(null, "Enter the name of the customer:", "Add.", JOptionPane.QUESTION_MESSAGE);
             }
             setUserName(EMail);
         }
@@ -149,7 +149,7 @@ public abstract class absCaches extends SQliteCRUD {
             if (logicResult) {
                 return true;
             } else {
-                JOptionPane.showMessageDialog(null, "The Email:\n\t\t " + EMail + "\n Already exist in our database.", "Error.", 0);
+                JOptionPane.showMessageDialog(null, "The Email:\n\t\t " + EMail + "\n Already exist in our database.", "Error.", JOptionPane.ERROR_MESSAGE);
             }
             return false;
         }
@@ -160,45 +160,45 @@ public abstract class absCaches extends SQliteCRUD {
             if (logicResult) {
                 return true;
             } else {
-                JOptionPane.showMessageDialog(null, "The format of the Email is invalit.", "Error.", 0);
+                JOptionPane.showMessageDialog(null, "The format of the Email is invalid.", "Error.", JOptionPane.ERROR_MESSAGE);
             }
             return false;
         }
 
-        public String getUserName() {
+        String getUserName() {
             return userName;
         }
 
-        public void setUserName(String userName) {
+        void setUserName(String userName) {
             this.userName = userName;
         }
 
-        public void setUserName(String userName, String EMail) {
+        void setUserName(String userName, String EMail) {
             this.userName = userName;
             this.EMail = EMail;
         }
 
-        public String getPassword() {
+        String getPassword() {
             return Password;
         }
 
-        public void setPassword(String Password) {
+        void setPassword(String Password) {
             this.Password = Password;
         }
 
-        public boolean isLogin() {
+        boolean isLogin() {
             return Login;
         }
 
-        public void setLogin(boolean Login) {
+        void setLogin(boolean Login) {
             this.Login = Login;
         }
 
-        public boolean isAdmin() {
+        boolean isAdmin() {
             return admin;
         }
 
-        public void setAdmin(boolean admin) {
+        void setAdmin(boolean admin) {
             this.admin = admin;
         }
     }
@@ -211,27 +211,27 @@ public abstract class absCaches extends SQliteCRUD {
 
         private int seatNum;
 
-        public int getMovieID() {
+        int getMovieID() {
             return movieID;
         }
 
-        public void setMovieID(int movieID) {
+        void setMovieID(int movieID) {
             this.movieID = movieID;
         }
 
-        public String getMovieName() {
+        String getMovieName() {
             return movieName;
         }
 
-        public void setMovieName(String movieName) {
+        void setMovieName(String movieName) {
             this.movieName = movieName;
         }
 
-        public int getTimeNumber() {
+        int getTimeNumber() {
             return TimeNumber;
         }
 
-        public void setTimeNumber(int TimeNumber) {
+        void setTimeNumber(int TimeNumber) {
             this.TimeNumber = TimeNumber;
         }
 

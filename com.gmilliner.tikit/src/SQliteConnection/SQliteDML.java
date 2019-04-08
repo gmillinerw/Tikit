@@ -11,7 +11,7 @@ public abstract class SQliteDML {
 
     static String DATA_SOURCE;
 
-    public SQliteDML() {
+    SQliteDML() {
         DATA_SOURCE = "jdbc:sqlite:com.gmilliner.tikit/DataBase/TikitSQlite.db";
     }
 
@@ -27,7 +27,7 @@ public abstract class SQliteDML {
         return 0;
     }
 
-    public int ExeBatchPreparedSTMT(String query, Map<String, List<Integer>> Hall, int seatCounter) {
+    protected int ExeBatchPreparedSTMT(String query, Map<String, List<Integer>> Hall, int seatCounter) {
         System.out.println("ExeBatchPreparedSTMT will run prepared statement:\n\t\t" + query);
 
         try (Connection Connection = DriverManager.getConnection(DATA_SOURCE)) {
