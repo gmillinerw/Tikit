@@ -3,12 +3,12 @@ package CodeForServer;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class absGUI extends absCaches {
+abstract class absGUI extends absCaches {
 
-    JFrame mainFrame = new JFrame();
-    JPanel topPanel = new JPanel();
-    JPanel bottomPanel = new JPanel();
-    JPanel basePanel = new JPanel();
+    final JFrame mainFrame = new JFrame();
+    final JPanel topPanel = new JPanel();
+    final JPanel bottomPanel = new JPanel();
+    final JPanel basePanel = new JPanel();
 
     void setGUI(String dspName) {
         System.out.println("Displaying " + dspName + " screen...");

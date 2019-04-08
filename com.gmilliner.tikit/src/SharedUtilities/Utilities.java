@@ -13,9 +13,7 @@ public class Utilities {
 
     public int GenerateRanNum(int max, int min) {
         Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-//        System.out.println("Generated random number: " + randomNum);
-        return randomNum;
+        return rand.nextInt((max - min) + 1) + min;
     }
 
     public void sendMail(String Email, String Subject, String MessageText) {
@@ -24,7 +22,7 @@ public class Utilities {
         final String password = "Movie123.";
 
         Properties props = new Properties();
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starTTLS.enable", "true");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
