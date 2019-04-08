@@ -3,13 +3,19 @@ package CodeForServer;
 import SQliteConnection.SQliteCRUD;
 import SharedUtilities.Utilities;
 
+import java.io.File;
 import java.util.*;
 
-public class Stage1BootUp extends absGUI {
+class Stage1BootUp extends absGUI {
 
-    Configuration configuration = new Configuration();
+    private Configuration configuration;
+
+    Stage1BootUp() {
+        configuration = new Configuration();
+    }
 
     void startProgram() {
+        deleteDB();
         Stage2login DSP1_login = new Stage2login();
         CR8ConfigurationTable();
         setConfiguration();
@@ -24,8 +30,17 @@ public class Stage1BootUp extends absGUI {
         cr8Seats(.9F, .3F, cacheConfiguration());
     }
 
+    private void deleteDB() {
+        File file = new File("com.gmilliner.tikit/DataBase/TikitSQlite.db");
 
-    void CR8ConfigurationTable() {
+        if (file.delete()) {
+            System.out.println("Database was deleted successfully");
+        } else {
+            System.out.println("Database was note deleted");
+        }
+    }
+
+    private void CR8ConfigurationTable() {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
@@ -35,7 +50,7 @@ public class Stage1BootUp extends absGUI {
         System.out.println((SQliteCRUD.ExeDML(query) == 0) ? "User table was created" : "[Error] USERS Table was not Created");
     }
 
-    void setConfiguration() {
+    private void setConfiguration() {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String[] property = {"numMovies", "numTimes", "numSeats", "price", "Property5", "Property6"};
@@ -47,7 +62,7 @@ public class Stage1BootUp extends absGUI {
         }
     }
 
-    void CR8UserTable() {
+    private void CR8UserTable() {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
@@ -68,7 +83,7 @@ public class Stage1BootUp extends absGUI {
         System.out.println((ExeDML(query) == 0) ? "User table was created" : "[Error] USERS Table was not Created");
     }
 
-    void CR8Users() {
+    private void CR8Users() {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
@@ -81,7 +96,7 @@ public class Stage1BootUp extends absGUI {
         System.out.println((ExeDML(query) == 0) ? "User was created" : "[Error] USER was not Created");
     }
 
-    void CR8SeatsTable() {
+    private void CR8SeatsTable() {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
@@ -97,7 +112,7 @@ public class Stage1BootUp extends absGUI {
         System.out.println((ExeDML(query) == 0) ? "SEATS table was created" : "[Error] SEATS Table was not Created");
     }
 
-    void CR8ReservationsTable() {
+    private void CR8ReservationsTable() {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
@@ -113,7 +128,7 @@ public class Stage1BootUp extends absGUI {
         System.out.println((ExeDML(query) == 0) ? "SEATS table was created" : "[Error] SEATS Table was not Created");
     }
 
-    void CR8MovieTable() {
+    private void CR8MovieTable() {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         String query;
@@ -126,7 +141,7 @@ public class Stage1BootUp extends absGUI {
         System.out.println((ExeDML(query) == 0) ? "Movie table was created" : "[Error] Movie Table was not Created");
     }
 
-    void CR8Movies() {
+    private void CR8Movies() {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
         String[] movieName = {"BABY DRIVER", "INTERSTELLAR", "LOGAN", "THE DARK KNIGHT", "THE GODFATHER", "WONDER WOMAN"};
         String[] iconImageLocation = {"/Media/BABY DRIVER.png", "/Media/INTERSTELLAR.png", "/Media/LOGAN.png", "/Media/THE DARK KNIGHT.png", "/Media/THE GODFATHER", "/Media/WONDER WOMAN.png"};
@@ -140,7 +155,7 @@ public class Stage1BootUp extends absGUI {
 
     //maxPCT: is the maximum percentage of seats that will be randomised
     //minPCT: is the minimum percentage of seats that will be randomised
-    void cr8Seats(float maxPCT, float minPCT, Configuration Configuration) {
+    private void cr8Seats(float maxPCT, float minPCT, Configuration Configuration) {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         int seatCounter = 0;
@@ -168,7 +183,7 @@ public class Stage1BootUp extends absGUI {
         randSeats(maxPCT, minPCT, Configuration);
     }
 
-    void randSeats(float maxPCT, float minPCT, Configuration Configuration) {
+    private void randSeats(float maxPCT, float minPCT, Configuration Configuration) {
         System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()) + " Trace Info");
 
         int randCounter = 0;

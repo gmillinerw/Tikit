@@ -4,10 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class Stage3Home extends absGUI {
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
 
-    User user = new User();
-    Configuration configuration = cacheConfiguration();
+class Stage3Home extends absGUI {
+
+    private final Configuration configuration = cacheConfiguration();
+    private User user;
 
     Stage3Home(User user) {
         this.user = user;
@@ -27,7 +30,7 @@ public class Stage3Home extends absGUI {
     }
 
     public void getMainDisplayDSP() {
-        setGUI("Jframe Name");
+        setGUI("JFrame Name");
 
         JButton chooseMovie = new JButton("Choose \n Movie");
         chooseMovie.setFont(new Font("Ariel", Font.BOLD, 20));
@@ -42,7 +45,7 @@ public class Stage3Home extends absGUI {
         payTicket.addActionListener((ActionEvent evt) -> {
             System.out.println("EVT INFO: " + evt.getActionCommand() + " button was press");
 
-            JOptionPane.showMessageDialog(mainFrame, "This module is still being develop.", "info.", 0);
+            showMessageDialog(mainFrame, "This module is still being develop.", "info.", INFORMATION_MESSAGE);
             mainFrame.dispose();
             getMainDisplayDSP();
         });

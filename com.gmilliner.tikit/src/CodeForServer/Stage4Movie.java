@@ -5,16 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-public class Stage4Movie extends absGUI {
+class Stage4Movie extends absGUI {
 
     int userID;
-    String movieSelected;
-    int TimeSelected = 0;
+    private final Stage3Home Stage3Home;
+    private final Configuration configuration;
     int errorCount;
-    User user = new User();
+    private String movieSelected;
     Hall hall = new Hall();
-    Stage3Home Stage3Home;
-    Configuration configuration;
+    private int TimeSelected = 0;
+    private User user;
 
     Stage4Movie(User user, Configuration configuration) {
         this.user = user;
@@ -40,22 +40,22 @@ public class Stage4Movie extends absGUI {
         setGUI("Chose Movie");
 
         String query;
-        ArrayList<String> movieName;
+        ArrayList<String> listOfMovieNames;
         query = "SELECT movieName FROM Movies";
-        movieName = ExeDDL(query);
-        int numOfMuvies = movieName.size();
+        listOfMovieNames = ExeDDL(query);
+        int numberOfMoves = listOfMovieNames.size();
 
         ArrayList<String> iconImageLocation;
         query = "SELECT iconImageLocation FROM Movies";
         iconImageLocation = ExeDDL(query);
         ArrayList<ImageIcon> iconImage = new ArrayList<>();
-        for (int index = 0; index < numOfMuvies; index++) {                     //This is not worling
+        for (int index = 0; index < numberOfMoves; index++) {                     //This is not working
             System.out.println("Creating ImageIcon using path: " + iconImageLocation.get(index));
-            //iconImage.add(new ImageIcon(getClass().getResource(iconImageLocation.get(index))));        //This is not worling
+            //iconImage.add(new ImageIcon(getClass().getResource(iconImageLocation.get(index))));        //This is not working
         }
 
         ArrayList<String> TimeList = new ArrayList<>();
-        TimeList.add("Sellect time");
+        TimeList.add("Select time");
         for (int index = 1; index < configuration.getNumTimes(); index++) {
             TimeList.add("Time de: " + index + "pm");
         }
@@ -69,9 +69,9 @@ public class Stage4Movie extends absGUI {
                 new ImageIcon(getClass().getResource("/Media/WONDER WOMAN.png"))};
 
         ArrayList<JButton> movieButton = new ArrayList<>();
-        for (int index = 0; index < numOfMuvies; index++) {
-            //           System.out.println("The index is: " + index);
-            movieButton.add(new JButton(movieName.get(index)));
+        for (int index = 0; index < numberOfMoves; index++) {
+            System.out.println("The index is: " + index);
+            movieButton.add(new JButton(listOfMovieNames.get(index)));
             movieButton.get(index).setIcon(movieImage[index]);       //To delete
 //            movieButton.get(index).setIcon(iconImage.get(index));
             movieButton.get(index).setFont(new Font("Ariel", Font.BOLD, 20));
@@ -79,7 +79,7 @@ public class Stage4Movie extends absGUI {
             movieButton.get(index).setVerticalTextPosition(AbstractButton.BOTTOM);
             movieButton.get(index).addActionListener((ActionEvent evt) -> {
                 System.out.println("EVT INFO: " + evt.getActionCommand() + " button was press");
-                for (int i = 0; i < numOfMuvies; i++) {
+                for (int i = 0; i < numberOfMoves; i++) {
                     if (evt.getSource().equals(movieButton.get(i))) {
                         movieSelected = evt.getActionCommand();
                         break;
