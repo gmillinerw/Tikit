@@ -12,7 +12,7 @@ public abstract class SQliteDML {
     static String DATA_SOURCE;
 
     public SQliteDML() {
-        DATA_SOURCE = "jdbc:sqlite:com.gmilliner.tikit/DataBase/TikitSQlite.db";
+        DATA_SOURCE = "jdbc:sqlite:DataBase/TikitSQlite.db";
     }
 
     public static int ExeDML(String query) {
